@@ -78,7 +78,7 @@ FROM
 |----------|-------|
 | 3976     | 4524  |
 
--Key Insight: More people are exposed to the direct blue light than those who protect their eyes. This shows a major lack of awareness among people about sleep and eye health, which probably explains why people suffer from high sleep debts.
+-**Key Insight:** More people are exposed to the direct blue light than those who protect their eyes. This shows a major lack of awareness among people about sleep and eye health, which probably explains why people suffer from high sleep debts.
 
 ### Question 5: What is the Maximum Caffeine consumption of people, alongside minimum and maximum sleep_hours corresponding to the consumption ?
 #### SQL Query:
@@ -93,3 +93,49 @@ FROM
 |  max_caffeine | min_sleep | max_sleep |
 |----------------|-----------|-----------|
 | 250            | 3.2       | 9.8       |
+
+-**Key Insight:** According to the query, the maximum caffeine consumption of people is **250 mg**. The min sleep hours they get is **3.5 hours**, which is not healthy; On the other hand, the maximum sleep hours they get is **9.8 hours**, which although looks healthy- but it can cause oversleeping and can affect day-to-day work efficiency due to morning grogginess caused by caffeine disturbing their deep sleep hours.
+
+### Question 5: What is the sample size of each unique occupation_type along with their average bedtime phone usage and its corresponding sleep hygiene rating ?
+#### SQL Query:
+```
+SELECT 
+    occupation_type,
+    COUNT(*) AS sample_size,
+    ROUND(AVG(bedtime_phone_minutes), 2) AS avg_minutes,
+    CASE
+        WHEN ROUND(AVG(bedtime_phone_minutes), 2) <= 20 THEN 'Excellent'
+        WHEN ROUND(AVG(bedtime_phone_minutes), 2) < 45 THEN 'Moderate'
+        ELSE 'Poor'
+    END AS rating
+FROM
+    slp_data
+GROUP BY occupation_type
+ORDER BY COUNT(*);
+```
+|  occupation_type         | sample_size | avg_minutes | rating |
+|---------------------------|-------------|-------------|--------|
+| Freelance / Creative      | 901         | 60.04       | Poor   |
+| Healthcare / Shift Worker | 997         | 59.30       | Poor   |
+| Student                   | 1622        | 58.89       | Poor   |
+| Remote Tech               | 2142        | 59.40       | Poor   |
+| Corporate 9-to-5          | 2838        | 59.07       | Poor   |
+
+-**Key Insight:** The rating of all types is given as poor but looking closely, Freelance and Creative workers use their phones the most before bed (60.04 min) because flexible schedules blur work-life boundaries. On the other hand, Corporate 9-to-5 workers have the largest sample size (2838) but lower average phone usage (59.07) compared to Freelance/ Creative. This is likely driven by day time screen fatigue and need to wake up early for a rigid morning  routine.
+
+### Question 6: Which sleep debt category has the next day fatigue score greater than 5 ?
+#### SQL Query: 
+```
+SELECT 
+    sleep_debt_category,
+    ROUND(AVG(next_day_fatigue_score), 2) AS avg_fatigue
+FROM
+    slp_data
+GROUP BY sleep_debt_category
+HAVING ROUND(AVG(next_day_fatigue_score), 2) > 5;
+```
+|  sleep_debt_category | avg_fatigue |
+|-----------------------|-------------|
+| Severe Sleep Debt     | 9.58        |
+
+-**Key Insight:** The category with the highest average next day fatigue score is of the severe sleep debt category; this is highly concerning and can cause chronic headaches, high blood pressure, and brain fog.
