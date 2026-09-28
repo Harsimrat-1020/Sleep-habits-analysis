@@ -104,9 +104,9 @@ SELECT
     COUNT(*) AS sample_size,
     ROUND(AVG(bedtime_phone_minutes), 2) AS avg_minutes,
     CASE
-        WHEN ROUND(AVG(bedtime_phone_minutes), 2) <= 20 THEN 'Excellent'
-        WHEN ROUND(AVG(bedtime_phone_minutes), 2) < 45 THEN 'Moderate'
-        ELSE 'Poor'
+        WHEN ROUND(AVG(bedtime_phone_minutes), 2) <= 20 THEN 'Excellent 🟢'
+        WHEN ROUND(AVG(bedtime_phone_minutes), 2) < 45 THEN 'Moderate 🟡'
+        ELSE 'Poor 🔴'
     END AS rating
 FROM
     slp_data
@@ -115,11 +115,11 @@ ORDER BY COUNT(*);
 ```
 |  occupation_type         | sample_size | avg_minutes | rating |
 |---------------------------|-------------|-------------|--------|
-| Freelance / Creative      | 901         | 60.04       | Poor   |
-| Healthcare / Shift Worker | 997         | 59.30       | Poor   |
-| Student                   | 1622        | 58.89       | Poor   |
-| Remote Tech               | 2142        | 59.40       | Poor   |
-| Corporate 9-to-5          | 2838        | 59.07       | Poor   |
+| Freelance / Creative      | 901         | 60.04       | Poor 🔴   |
+| Healthcare / Shift Worker | 997         | 59.30       | Poor 🔴  |
+| Student                   | 1622        | 58.89       | Poor 🔴  |
+| Remote Tech               | 2142        | 59.40       | Poor 🔴   |
+| Corporate 9-to-5          | 2838        | 59.07       | Poor 🔴   |
 
 -**Key Insight:** The rating of all types is given as poor but looking closely, Freelance and Creative workers use their phones the most before bed (60.04 min) because flexible schedules blur work-life boundaries. On the other hand, Corporate 9-to-5 workers have the largest sample size (2838) but lower average phone usage (59.07) compared to Freelance/ Creative. This is likely driven by day time screen fatigue and need to wake up early for a rigid morning  routine.
 
