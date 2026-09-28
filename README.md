@@ -1,4 +1,4 @@
-# Sleep-habits-analysis
+# Sleep-habits-analysis 
 
 ## Project Overview and Aim:
 This project analysis how  late-night phone habits, screen habits, and specific apps can affect a persons sleep quality and sleep debts.
@@ -139,3 +139,28 @@ HAVING ROUND(AVG(next_day_fatigue_score), 2) > 5;
 | Severe Sleep Debt     | 9.58        |
 
 -**Key Insight:** The category with the highest average next day fatigue score is of the severe sleep debt category; this is highly concerning and can cause chronic headaches, high blood pressure, and brain fog.
+
+### Question 7: What is the relationship between number of morning alarm snoozes, average total sleep hours, and average sleep latency ?
+#### SQL Query:
+```
+SELECT 
+    morning_alarm_snoozes,
+    COUNT(*) AS total_users,
+    ROUND(AVG(total_sleep_hours), 2) AS avg_sleep_hours,
+    ROUND(AVG(sleep_latency_min), 2) AS avg_time_to_fall_asleep
+FROM
+    slp_data
+GROUP BY morning_alarm_snoozes
+ORDER BY avg_time_to_fall_asleep ASC;
+```
+|  morning_alarm_snoozes | total_users | avg_sleep_hours | avg_time_to_fall_asleep |
+|-------------------------|-------------|-----------------|-------------------------|
+| 0                       | 755         | 8.28            | 24.81                   |
+| 1                       | 1329        | 7.52            | 30                      |
+| 2                       | 1870        | 6.83            | 34.42                   |
+| 3                       | 1862        | 6.08            | 39.92                   |
+| 4                       | 1321        | 5.33            | 47.7                    |
+| 5                       | 784         | 4.65            | 56.05                   |
+| 6                       | 401         | 4.03            | 66.89                   |
+| 7                       | 178         | 3.55            | 82.22                   |
+
