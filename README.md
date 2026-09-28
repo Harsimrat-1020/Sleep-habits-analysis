@@ -25,7 +25,7 @@ FROM slp_data;
 |-----------------|
 | 8500            |
 
-- **Key Insight:** This query every individual person surveyed in out dataset and shows our Sample Size.
+- **Key Insight:** This query every individual person surveyed in our dataset and shows our Sample Size.
 
 ### Question 2: what is the average screen time and screen brightness of individuals during bedtime ?
 #### SQL Query:
@@ -62,8 +62,8 @@ ORDER BY individual_count ASC;
 | TikTok / Reels           | 2198             |
 
 -**Key Insight:** From the query the most used app for scrolling is TikTok(Reels), where people tend to doom-scroll the most; 
-              the least used is New(or Reading)-- people tend to get bored or loose concentration and focus due to distraction and presence of other fun to watch.               apps.
-      It can infered that most people go towards apps which they genuinely feel is worth watching without getting bored. 
+              the least used is New(or Reading)-- people tend to get bored or lose concentration and focus due to distraction and presence of other fun to watch.               apps.
+      It can inferred that most people go towards apps which they genuinely feel is worth watching without getting bored. 
       
 ### Question 4: How many people keep blue light light filter active on their phones during scrolling ?
 #### SQL Query:
@@ -92,11 +92,11 @@ FROM
 ```
 |  max_caffeine | min_sleep | max_sleep |
 |----------------|-----------|-----------|
-| 250            | 3.2       | 9.8       |
+| 250            | 3.20       | 9.80      |
 
 -**Key Insight:** According to the query, the maximum caffeine consumption of people is **250 mg**. The min sleep hours they get is **3.5 hours**, which is not healthy; On the other hand, the maximum sleep hours they get is **9.8 hours**, which although looks healthy- but it can cause oversleeping and can affect day-to-day work efficiency due to morning grogginess caused by caffeine disturbing their deep sleep hours.
 
-### Question 5: What is the sample size of each unique occupation_type along with their average bedtime phone usage and its corresponding sleep hygiene rating ?
+### Question 6: What is the sample size of each unique occupation_type along with their average bedtime phone usage and its corresponding sleep hygiene rating ?
 #### SQL Query:
 ```
 SELECT 
@@ -123,7 +123,7 @@ ORDER BY COUNT(*);
 
 -**Key Insight:** The rating of all types is given as poor but looking closely, Freelance and Creative workers use their phones the most before bed (60.04 min) because flexible schedules blur work-life boundaries. On the other hand, Corporate 9-to-5 workers have the largest sample size (2838) but lower average phone usage (59.07) compared to Freelance/ Creative. This is likely driven by day time screen fatigue and need to wake up early for a rigid morning  routine.
 
-### Question 6: Which sleep debt category has the next day fatigue score greater than 5 ?
+### Question 7: Which sleep debt category has the next day fatigue score greater than 5 ?
 #### SQL Query: 
 ```
 SELECT 
@@ -140,20 +140,20 @@ HAVING ROUND(AVG(next_day_fatigue_score), 2) > 5;
 
 -**Key Insight:** The category with the highest average next day fatigue score is of the severe sleep debt category; this is highly concerning and can cause chronic headaches, high blood pressure, and brain fog.
 
-### Question 7: What is the relationship between number of morning alarm snoozes, average total sleep hours, and average sleep latency ?
+### Question 8: What is the relationship between number of morning alarm snoozes, average sleep hours, and average sleep latency ?
 #### SQL Query:
 ```
 SELECT 
     morning_alarm_snoozes,
     COUNT(*) AS total_users,
-    ROUND(AVG(total_sleep_hours), 2) AS avg_sleep_hours,
+    ROUND(AVG(total_sleep_hours), 2) AS avg_total_sleep_hours,
     ROUND(AVG(sleep_latency_min), 2) AS avg_time_to_fall_asleep
 FROM
     slp_data
 GROUP BY morning_alarm_snoozes
 ORDER BY avg_time_to_fall_asleep ASC;
 ```
-|  morning_alarm_snoozes | total_users | avg_sleep_hours | avg_time_to_fall_asleep |
+|  morning_alarm_snoozes | total_users | avg_total_sleep_hours | avg_time_to_fall_asleep |
 |-------------------------|-------------|-----------------|-------------------------|
 | 0                       | 755         | 8.28            | 24.81                   |
 | 1                       | 1329        | 7.52            | 30                      |
@@ -164,3 +164,40 @@ ORDER BY avg_time_to_fall_asleep ASC;
 | 6                       | 401         | 4.03            | 66.89                   |
 | 7                       | 178         | 3.55            | 82.22                   |
 
+-**Key Insight:** The data reveals a severe negative trend. As morning alarm snoozes increases from **0 to 7**, average total sleep hours drop drastically from **8.28 hours** down to **3.55 hours**, while the time it takes to fall asleep climbs from **24.81 minutes** to **82.22 minutes**. This proves that chronic snoozes is heavily tied to prolonged sleep latency and sleep deprivation.  
+
+### Question 9: Are there any noticeable gender differences in morning alarm snoozing habits, total sleep hours, and sleep latency ?
+#### SQL Query:
+```
+SELECT 
+    gender,
+    CASE
+        WHEN morning_alarm_snoozes = 0 THEN '🟢 No snooze [Excellent]'
+        WHEN morning_alarm_snoozes BETWEEN 1 AND 3 THEN '🟡 Moderate Snoozer'
+        WHEN morning_alarm_snoozes BETWEEN 4 AND 5 THEN '🟠 Heavy Snoozer'
+        ELSE '🔴 Cronic Snoozer'
+    END AS Snooze_Habit_Group,
+    COUNT(*) AS total_users,
+    ROUND(AVG(total_sleep_hours), 2) AS avg_total_sleep_hours,
+    ROUND(AVG(sleep_latency_min), 2) AS avg_time_to_fall_asleep
+FROM
+    slp_data
+GROUP BY gender , Snooze_Habit_Group
+ORDER BY Gender ASC , avg_time_to_fall_asleep DESC;
+```
+|  gender   | Snooze_Habit_Group       | total_users | avg_total_sleep_hours | avg_time_to_fall_asleep |
+|------------|--------------------------|-------------|-----------------------|-------------------------|
+| Female     | 🔴 Cronic Snoozer        | 299         | 3.9                   | 71.44                   |
+| Female     | 🟠 Heavy Snoozer         | 1073        | 5.07                  | 50.69                   |
+| Female     | 🟡 Moderate Snoozer      | 2612        | 6.74                  | 35.27                   |
+| Female     | 🟢 No snooze [Excellent] | 363         | 8.27                  | 24.51                   |
+| Male       | 🔴 Cronic Snoozer        | 259         | 3.85                  | 71.83                   |
+| Male       | 🟠 Heavy Snoozer         | 972         | 5.08                  | 51                      |
+| Male       | 🟡 Moderate Snoozer      | 2312        | 6.72                  | 35.33                   |
+| Male       | 🟢 No snooze [Excellent] | 362         | 8.27                  | 25.27                   |
+| Non-Binary | 🔴 Cronic Snoozer        | 21          | 3.94                  | 71                      |
+| Non-Binary | 🟠 Heavy Snoozer         | 60          | 5.04                  | 49.83                   |
+| Non-Binary | 🟡 Moderate Snoozer      | 137         | 6.78                  | 34.64                   |
+| Non-Binary | 🟢 No snooze [Excellent] | 30          | 8.33                  | 22.96                   |
+
+-**Key Insight:** This query reveals that gender has almost zero impact on sleep outcomes, when isolating behavioural groups within all groups, individuals who do not snooze have roughly similar hours of sleep (8 hours~approx) and get roughly 22 to 25 min of sleep latency. Conversely, all groups in the chronic snoozer category all experience a catastrophic drop to ~3 hours(approx) of total sleep and ~71 minutes(approx) sleep latency. This proves sleep degradation is entirely driven by behaviour rather then ones biological differences.
