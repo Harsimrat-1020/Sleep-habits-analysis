@@ -25,7 +25,7 @@ FROM slp_data;
 |-----------------|
 | 8500            |
 
-- **Key Insight:** This query counts every individual person surveyed in our dataset and shows our Sample Size.
+- **Key Insight:** This query counts every individual person surveyed in the dataset and shows our Sample Size.k
 
 ### Question 2: what is the average screen time and screen brightness of individuals during bedtime ?
 #### SQL Query:
