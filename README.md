@@ -25,7 +25,7 @@ FROM slp_data;
 |-----------------|
 | 8500            |
 
-- **Key Insight:** This query every individual person surveyed in our dataset and shows our Sample Size.
+- **Key Insight:** This query counts every individual person surveyed in our dataset and shows our Sample Size.
 
 ### Question 2: what is the average screen time and screen brightness of individuals during bedtime ?
 #### SQL Query:
@@ -78,7 +78,7 @@ FROM
 |----------|-------|
 | 3976     | 4524  |
 
--**Key Insight:** More people are exposed to the direct blue light than those who protect their eyes. This shows a major lack of awareness among people about sleep and eye health, which probably explains why people suffer from high sleep debts.
+-**Key Insight:** More people are exposed to direct blue light than those who use a filter. This shows a major lack of awareness among people about sleep and eye health, which probably explains why people suffer from high sleep debts.
 
 ### Question 5: What is the Maximum Caffeine consumption of people, alongside minimum and maximum sleep_hours corresponding to the consumption ?
 #### SQL Query:
@@ -94,7 +94,7 @@ FROM
 |----------------|-----------|-----------|
 | 250            | 3.20       | 9.80      |
 
--**Key Insight:** According to the query, the maximum caffeine consumption of people is **250 mg**. The min sleep hours they get is **3.5 hours**, which is not healthy; On the other hand, the maximum sleep hours they get is **9.8 hours**, which although looks healthy- but it can cause oversleeping and can affect day-to-day work efficiency due to morning grogginess caused by caffeine disturbing their deep sleep hours.
+-**Key Insight:** According to the query, the maximum caffeine consumption of people is **250 mg**. The min sleep hours they get is **3.2 hours**, which is not healthy; On the other hand, the maximum sleep hours they get is **9.8 hours**, which although looks healthy- but it can cause oversleeping and can affect day-to-day work efficiency due to morning grogginess caused by caffeine disturbing their deep sleep hours.
 
 ### Question 6: What is the sample size of each unique occupation_type along with their average bedtime phone usage and its corresponding sleep hygiene rating ?
 #### SQL Query:
